@@ -50,8 +50,8 @@ namespace ControleAcademia
                 var anoAtual = DateTime.Now.Year;
                 foreach (var aluno in alunos)
                 {
-                    var ultimoMesAluno = aluno.Ciclos.Last().Meses.Last().Data.Month + 1;
-                    var ultimoAnoAluno = aluno.Ciclos.Last().Meses.Last().Data.Year;
+                    var ultimoMesAluno = aluno.Ciclos.Last().Meses.OrderBy(a => a.Data).Last().Data.Month + 1;
+                    var ultimoAnoAluno = aluno.Ciclos.Last().Meses.OrderBy(a => a.Data).Last().Data.Year;
                     //while ((ultimoMesAluno % 12) + 1 < mesAtual)
                     while ((ultimoMesAluno <= mesAtual) || (ultimoAnoAluno < anoAtual))
                     {
@@ -192,7 +192,7 @@ namespace ControleAcademia
                         row[1] = aluno.Nome;
                         row[2] = aluno.Ativo.ToString();
                     
-                        var meses = aluno.Ciclos.LastOrDefault().Meses.OrderByDescending(x => x.Data).ToList();
+                        var meses = aluno.Ciclos.LastOrDefault().Meses.OrderByDescending(x => x.Data).Take(12).ToList();
                         var mes = 14;
                         for (var i = 0; i < meses.Count; i++)
                         {
